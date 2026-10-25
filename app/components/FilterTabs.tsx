@@ -1,8 +1,11 @@
+// Props for FIlterTab component
 interface FilterTabsProps {
   onFilter: (status: string) => void
 }
 
+// FilterTabs component renders navigation buttons to gilter games by status
 export default function FilterTabs({onFilter}: FilterTabsProps) {
+  // Available status options
   const statuses = ['All', 'Backlog', 'Playing', 'Beaten', 'Dropped']
 
   return (

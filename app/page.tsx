@@ -5,6 +5,7 @@ import GameCard from './components/GameCard';
 import GameForm from './components/GameForm';
 import FilterTabs from './components/FilterTabs';
 
+// Interface for a Game entity
 interface Game {
   id: number;
   title: string;
@@ -12,16 +13,23 @@ interface Game {
   status: string;
 }
 
+// Main application component
 export default function GameBacklogPage() {
+  // Main state (holds the list of games fetched from the server)
   const [games, setGames] = useState<Game[]>([]);
+  // Displays loading indicator
   const [loading, setLoading] = useState(true);
+
+  // Form inputs 
   const [newTitle, setNewTitle] = useState('');
   const [newPlatform, setNewPlatform] = useState('PC');
 
+  // Fetch all games on first render
   useEffect(() => {
     fetchGames();
   }, []);
 
+  // Fetches the list of games from GET API route
   async function fetchGames(statusFilter = 'All') {
     try {
       const url = statusFilter === 'All' ? '/api/games' : `/api/games?status=${statusFilter}`;
@@ -35,6 +43,7 @@ export default function GameBacklogPage() {
     }
   }
 
+  // Form submission to create new game
   async function handleAddGame(e: React.FormEvent) {
     e.preventDefault();
     if (!newTitle.trim()) return;
@@ -46,6 +55,7 @@ export default function GameBacklogPage() {
         body: JSON.stringify({ title: newTitle, platform: newPlatform, status: 'Backlog' })
       });
       const json = await res.json();
+
       if (json.success) {
         setGames([...games, json.data]);
         setNewTitle('');
@@ -55,6 +65,7 @@ export default function GameBacklogPage() {
     }
   }
 
+  // Sends DELETE request to remove game by ID
   async function handleDelete(id: number) {
     try {
       const res = await fetch(`/api/games/${id}`, { method: 'DELETE' });
@@ -65,6 +76,7 @@ export default function GameBacklogPage() {
     }
   }
 
+  // Sends PUT request to update the status of a game
   async function handleUpdateStatus(id: number, newStatus: string) {
     try {
       const res = await fetch(`/api/games/${id}`, {
