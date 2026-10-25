@@ -3,8 +3,6 @@ interface Game {
   title: string
   platform: string
   status: string
-  hoursPlayed: number 
-  rating: number 
 }
 
 interface GameCardProps {
@@ -29,21 +27,21 @@ export default function GameCard({ game, onDelete, onUpdateStatus }: GameCardPro
         </div>
       </div>
 
-      {/* Status quick change button */}
-      <div className="flex gap-2 pt-3 border-t border-gray-800 text-xs">
-        <span className="text-gray-500 self-center">Move to:</span>
-        {['Backlog', 'Playing', 'Beaten'].map((st) => (
-          game.status !== st && (
-            <button
-              key={st}
-              onClick={() => onUpdateStatus(game.id, st)}
-              className="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-gray-300 transition"
-            >
-              {st}
-            </button>
-          )
-        ))}
-      </div>
+      {/* Status Quick-Change Buttons */}
+<div className="flex gap-2 pt-3 border-t border-gray-800 text-xs">
+  <span className="text-gray-500 self-center">Move to:</span>
+  {['Backlog', 'Playing', 'Beaten', 'Dropped'].map((st) => (
+    game.status !== st && (
+      <button
+        key={st}
+        onClick={() => onUpdateStatus(game.id, st)}
+        className="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-gray-300 transition"
+      >
+        {st}
+      </button>
+    )
+  ))}
+</div>
     </div>
   )
 }
